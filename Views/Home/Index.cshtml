@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+<h2>Welcome to the Delivery App System</h2>
+
+@if (Context.Session.GetString("UserID") != null)
+{
+    <p><a href="/Ride/Create">Request a Ride</a></p>
+    <p><a href="/Ride/MyRides">My Rides</a></p>
+}
+else if (Context.Session.GetString("DriverID") != null)
+{
+    <p><a href="/Ride/Pending">Pending Rides</a></p>
+    <p><a href="/Ride/AssignedRides">Assigned Rides</a></p>
+}
+else
+{
+    <p><a href="/User/Login">Login as Customer</a></p>
+    <p><a href="/Driver/Login">Login as Driver</a></p>
+}

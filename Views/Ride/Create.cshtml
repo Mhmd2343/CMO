@@ -1,0 +1,15 @@
+﻿@model DeliveryAppSystem.Models.RideRequest
+
+<h2>Request a Ride</h2>
+
+<form asp-action="Create">
+    <div class="mb-3">
+        <label asp-for="PickupLocation" class="form-label"></label>
+        <input asp-for="PickupLocation" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="DropoffLocation" class="form-label"></label>
+        <input asp-for="DropoffLocation" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Request Ride</button>
+</form>

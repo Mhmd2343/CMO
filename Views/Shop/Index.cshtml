@@ -1,0 +1,13 @@
+﻿
+@model IEnumerable<DeliveryAppSystem.Models.Shop>
+
+<h2>Welcome to CMO Market</h2>
+
+@foreach (var shop in Model)
+{
+    <div style="margin-bottom: 20px;">
+     
+        <p>@shop.Location</p>
+        <a href="@Url.Action("Products", "Shop", new { shopId = shop.ShopId })">Browse Products</a>
+    </div>
+}

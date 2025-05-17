@@ -1,0 +1,38 @@
+﻿@model IEnumerable<DeliveryAppSystem.Models.RideRequest>
+
+<h2>My Rides</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Pickup</th>
+            <th>Drop-Off</th>
+            <th>Status</th>
+            <th>Driver</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ride in Model)
+        {
+            <tr>
+                <td>@ride.PickupLocation</td>
+                <td>@ride.DropoffLocation</td>
+                <td>@ride.Status</td>
+                <td>@(ride.Driver != null ? ride.Driver.User.FirstName + " " + ride.Driver.User.LastName : "Unassigned")</td>
+                <td>
+                    @if (ride.Status == "Pending" || ride.Status == "Accepted")
+                    {
+                        <form asp-action="Cancel" method="post" asp-route-id="@ride.Id" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                        </form>
+                    }
+                    @if (ride.Status == "Completed" && ride.Rating == null)
+                    {
+                        <a asp-action="Rate" asp-route-id="@ride.Id" class="btn btn-warning btn-sm">Rate</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

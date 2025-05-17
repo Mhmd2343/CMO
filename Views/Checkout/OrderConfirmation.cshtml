@@ -1,0 +1,61 @@
+﻿@model DeliveryAppSystem.Models.OrderConfirmationViewModel
+
+<h2>Thank You for Your Order!</h2>
+
+<div class="mb-3">
+    <p><strong>Order #: </strong>@Model.ShopOrderId</p>
+    <p><strong>Date:</strong> @Model.OrderDate</p>
+    <p><strong>Status:</strong> @Model.Status</p>
+</div>
+
+<h4>Delivery Details</h4>
+<p><strong>Address:</strong> @Model.DeliveryAddress</p>
+<p><strong>Change Requested:</strong> @Model.RequestChange</p>
+<p><strong>ETA:</strong> @Model.EstimatedDeliveryTime</p>
+
+@if (Model.AssignedDriver != null && Model.AssignedDriver.User != null)
+{
+    <h4>Driver Information</h4>
+    <p><strong>Name:</strong> @Model.AssignedDriver.User.FirstName @Model.AssignedDriver.User.LastName</p>
+    <p><strong>Vehicle:</strong> @Model.AssignedDriver.VehicleType</p>
+    <p><strong>Plate Number:</strong> @Model.AssignedDriver.PlateNumber</p>
+    <p><strong>City:</strong> @Model.AssignedDriver.City</p>
+}
+else
+{
+    <p><strong>Driver:</strong> Not yet assigned</p>
+}
+
+<h4>Items</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Quantity</td>
+                <td>$@item.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="mt-4">
+    <h4>Order Summary</h4>
+    <p><strong>Promo Code:</strong> @Model.PromoCode</p>
+    <p><strong>Subtotal:</strong> @String.Format("${0:0.00}", Model.TotalAmountUSD + Model.Discount)</p>
+    <p><strong>Discount:</strong> -@String.Format("${0:0.00}", Model.Discount)</p>
+    <p><strong>Total (USD):</strong> @String.Format("${0:0.00}", Model.TotalAmountUSD)</p>
+    <p><strong>Total (LBP):</strong> @Model.TotalAmountLBP.ToString("#,##0") LBP</p>
+    <p><strong>Estimated Delivery:</strong> @Model.EstimatedDeliveryTime</p>
+    <p><strong>Payment:</strong> Cash on Delivery</p>
+</div>
+
+<a asp-controller="Shop" asp-action="Index" class="btn btn-primary mt-4">Back to Menu</a>

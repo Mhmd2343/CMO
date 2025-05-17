@@ -1,0 +1,47 @@
+﻿@model List<DeliveryAppSystem.Models.RideRequest>
+
+@{
+    ViewData["Title"] = "My Assigned Rides";
+}
+
+<h2>My Assigned Rides</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">You have no assigned rides yet.</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Pickup Location</th>
+                <th>Dropoff Location</th>
+                <th>Status</th>
+                <th>Request Time</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ride in Model)
+            {
+                <tr>
+                    <td>@ride.CustomerId</td>
+                    <td>@ride.PickupLocation</td>
+                    <td>@ride.DropoffLocation</td>
+                    <td>@ride.Status</td>
+                    <td>@ride.RequestTime.ToString("g")</td>
+                    <td>
+                        @if (ride.Status == "Accepted")
+                        {
+                            <form asp-action="Complete" method="post" asp-route-id="@ride.Id" class="d-inline">
+                                <button type="submit" class="btn btn-success btn-sm">Complete</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Driver Registration";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<form asp-action="Register" method="post">
+    <div class="form-group">
+        <label>First Name</label>
+        <input name="FirstName" type="text" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Last Name</label>
+        <input name="LastName" type="text" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <input name="Email" type="email" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Password</label>
+        <input name="Password" type="password" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Confirm Password</label>
+        <input name="ConfirmPassword" type="password" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Vehicle Type</label>
+        <input name="VehicleType" type="text" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Plate Number</label>
+        <input name="PlateNumber" type="text" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Pricing Type</label>
+        <select name="PricingType" class="form-control" required>
+            <option value="Fixed">Fixed Rate</option>
+            <option value="PerKM">Per Kilometer</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Price</label>
+        <input name="Price" type="number" step="0.01" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>City/Governorate Served</label>
+        <input name="City" type="text" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Working Hours</label>
+        <input name="WorkingHours" type="text" class="form-control" placeholder="e.g., 9 AM - 6 PM" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>

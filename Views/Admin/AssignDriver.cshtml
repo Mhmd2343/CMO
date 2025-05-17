@@ -1,0 +1,43 @@
+﻿using DeliveryAppSystem.Models;
+
+@model List<DeliveryAppSystem.Models.ShopOrder>
+@{
+    var drivers = ViewBag.Drivers as List<DeliveryAppSystem.Models.Driver>;
+}
+
+<h2>Assign Driver to Orders</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Client</th>
+            <th>Address</th>
+            <th>Status</th>
+            <th>Assign Driver</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.ShopOrderId</td>
+                <td>@(order.Client != null ? $"{order.Client.FirstName} {order.Client.LastName}" : "")</td>
+                <td>@order.DeliveryAddress</td>
+                <td>@order.Status</td>
+                <td>
+                    <form method="post" asp-action="AssignDriverToOrder">
+                        <input type="hidden" name="orderId" value="@order.ShopOrderId" />
+                        <select name="driverId">
+                            @foreach (var driver in drivers)
+                            {
+                                <option value="@driver.DriverId">@((driver.User != null) ? $"{driver.User.FirstName} {driver.User.LastName}" : "") (@driver.City)</option>
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-success">Assign</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

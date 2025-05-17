@@ -1,0 +1,68 @@
+﻿@model DeliveryAppSystem.Models.ViewModels.DriverDashboardViewModel
+
+@{
+    ViewData["Title"] = "Driver Dashboard";
+}
+
+<h2>Welcome, @Model.Driver.User.FirstName!</h2>
+
+<h4>Vehicle: @Model.Driver.VehicleType | Plate: @Model.Driver.PlateNumber</h4>
+<p>City: @Model.Driver.City</p>
+<p>Working Hours: @Model.Driver.WorkingHours</p>
+<p>
+    Pricing: @Model.Driver.PricingType -
+    @(Model.Driver.PricingType == "PerKM" ? $"${Model.Driver.PricePerKm}/km" : $"${Model.Driver.FixedDeliveryPrice}/delivery")
+</p>
+
+<hr />
+
+<h3>Assigned Orders</h3>
+
+@if (Model.AssignedOrders.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Client</th>
+                <th>Items</th>
+                <th>Status</th>
+                <th>Change Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.AssignedOrders)
+            {
+                <tr>
+                    <td>@order.ShopOrderId</td>
+                    <td>@order.Client.FullName</td>
+                    <td>
+                        <ul>
+                            @foreach (var item in order.Items)
+                            {
+                                <li>@item.Product.Name x @item.Quantity</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>@order.Status</td>
+                    <td>
+                        <form asp-action="UpdateOrderStatus" method="post">
+                            <input type="hidden" name="orderId" value="@order.ShopOrderId" />
+                            <select name="status" class="form-control">
+                                <option value="Pending">Pending</option>
+                                <option value="Preparing">Preparing</option>
+                                <option value="Delivered">Delivered</option>
+                                <option value="Canceled">Canceled</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-primary mt-1">Update</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No orders assigned yet.</p>
+}

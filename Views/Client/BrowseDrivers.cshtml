@@ -1,0 +1,51 @@
+﻿@model List<DeliveryAppSystem.Models.Driver>
+@{
+    ViewData["Title"] = "Browse Drivers";
+}
+
+<h2>Available Drivers</h2>
+
+<form method="get" class="form-inline mb-4">
+    <label class="mr-2">City:</label>
+    <select name="city" class="form-control mr-2">
+        <option value="">All</option>
+        <option value="Beirut">Beirut</option>
+        <option value="Tripoli">Tripoli</option>
+        <!-- Add other cities as needed -->
+    </select>
+
+    <label class="mr-2">Minimum Rating:</label>
+    <select name="minRating" class="form-control mr-2">
+        <option value="">Any</option>
+        <option value="4.0">4.0</option>
+        <option value="4.5">4.5</option>
+        <option value="5.0">5.0</option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+@foreach (var driver in Model)
+{
+    <div class="card mb-3">
+        <div class="card-header">
+            <strong>@driver.User.FirstName @driver.User.LastName</strong> — @driver.VehicleType
+        </div>
+        <div class="card-body">
+            <p><strong>City:</strong> @driver.City</p>
+            <p><strong>Rating:</strong> @driver.AverageRating</p>
+            <p>
+                <strong>Pricing:</strong>
+                @if (driver.PricingType == "PerKM")
+                {
+                    <span>@driver.PricePerKm USD/km</span>
+                }
+                else
+                {
+                    <span>@driver.FixedDeliveryPrice USD/delivery</span>
+                }
+            </p>
+            <p><strong>Working Hours:</strong> @driver.WorkingHours</p>
+        </div>
+    </div>
+}

@@ -1,0 +1,21 @@
+﻿@* @model List<DeliveryAppSystem.Models.ProductCategory>
+
+<h2>CMO Market Menu</h2>
+
+@foreach (var category in Model)
+{
+    <h3>@category.Name</h3>
+    <div class="row">
+        @foreach (var product in category.Products)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card p-3">
+                    <h5>@product.Name</h5>
+                    <p>@product.Description</p>
+                    <p><strong>Price:</strong> $@product.Price</p>
+                </div>
+            </div>
+        }
+    </div>
+}
+ *@

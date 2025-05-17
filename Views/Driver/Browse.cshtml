@@ -1,0 +1,54 @@
+﻿@model List<DeliveryAppSystem.Models.Driver>
+@{
+    ViewData["Title"] = "Browse Drivers";
+}
+
+<h2>Available Drivers</h2>
+
+<form method="get" class="mb-3">
+    <label>Filter by City:</label>
+    <select name="city" class="form-select d-inline w-auto">
+        <option value="">All</option>
+        @foreach (var city in ViewBag.Cities as List<string>)
+        {
+            <option value="@city">@city</option>
+        }
+    </select>
+
+    <label class="ms-3">Min Rating:</label>
+    <input type="number" step="0.1" name="minRating" class="form-control d-inline w-auto" placeholder="0.0" />
+
+    <button type="submit" class="btn btn-primary ms-2">Filter</button>
+</form>
+
+@if (!Model.Any())
+{
+    <p>No drivers found.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var d in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-3 shadow">
+                    <div class="card-header bg-dark text-white">
+                        <strong>@d.User.FullName</strong>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>City:</strong> @d.City</p>
+                        <p><strong>Rating:</strong> ⭐ @d.AverageRating.ToString("0.0")</p>
+                        <p><strong>Vehicle:</strong> @d.VehicleType (@d.PlateNumber)</p>
+                        <p>
+                            <strong>Pricing:</strong>
+                            @(d.PricingType == "PerKM"
+                                ? $"${d.PricePerKm}/km"
+                                : $"${d.FixedDeliveryPrice} per delivery")
+                        </p>
+                        <a href="@Url.Action("Details", "Driver", new { id = d.DriverId })" class="btn btn-outline-info">View Profile</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
